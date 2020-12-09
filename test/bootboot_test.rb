@@ -22,10 +22,10 @@ class BootbootTest < Minitest::Test
       File.write(file, 'gem "rake"', mode: 'a')
 
       output = run_bundle_command('install', file.path)
-      assert_match("Updating the #{file.path}_next.lock", output)
+      assert_match("Updating the #{file.path}.next.lock", output)
 
       output = run_bundle_command('install', file.path)
-      refute_match("Updating the #{file.path}_next.lock", output)
+      refute_match("Updating the #{file.path}.next.lock", output)
     end
   end
 
@@ -294,7 +294,7 @@ class BootbootTest < Minitest::Test
   private
 
   def gemfile_next(gemfile)
-    "#{gemfile.path}_next.lock"
+    "#{gemfile.path}.next.lock"
   end
 
   def write_gemfile(content = nil)

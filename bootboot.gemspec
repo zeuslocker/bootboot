@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
   spec.summary       = "Dualbooting your ruby app made easy."
   spec.description   = <<-EOM.gsub(/\W+/, ' ')
     This gem remove the overhead of monkeypatching your Gemfile in order to
-    dualboot your app using the Gemfile_next.lock strategy.
-    It also ensure that dependencies in the Gemfile.lock and Gemfile_next.lock are
+    dualboot your app using the Gemfile.next.lock strategy.
+    It also ensure that dependencies in the Gemfile.lock and Gemfile.next.lock are
     in sync whenever someone updates a gem.
   EOM
   spec.homepage      = "https://github.com/shopify/bootboot"

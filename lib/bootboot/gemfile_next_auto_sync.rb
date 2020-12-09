@@ -14,7 +14,7 @@ module Bootboot
         next if Bundler::VERSION >= "1.17.0" || !GEMFILE_NEXT_LOCK.exist?
 
         Bundler.ui.warn(<<-EOM.gsub(/\s+/, " "))
-          Bootboot can't automatically update the Gemfile_next.lock because you are running
+          Bootboot can't automatically update the Gemfile.next.lock because you are running
           an older version of Bundler.
 
           Update Bundler to 1.17.0 to discard this warning.
@@ -61,7 +61,7 @@ module Bootboot
     end
 
     def which_env
-      if Bundler.default_lockfile.to_s =~ /_next\.lock/
+      if Bundler.default_lockfile.to_s =~ /\.next\.lock/
         Bootboot.env_previous
       else
         Bootboot.env_next
@@ -69,7 +69,7 @@ module Bootboot
     end
 
     def which_lock
-      if Bundler.default_lockfile.to_s =~ /_next\.lock/
+      if Bundler.default_lockfile.to_s =~ /\.next\.lock/
         GEMFILE_LOCK
       else
         GEMFILE_NEXT_LOCK

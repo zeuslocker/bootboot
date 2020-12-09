@@ -6,7 +6,7 @@ require "bootboot/bundler_patch"
 module Bootboot
   GEMFILE = Bundler.default_gemfile
   GEMFILE_LOCK = Pathname("#{GEMFILE}.lock")
-  GEMFILE_NEXT_LOCK = Pathname("#{GEMFILE}_next.lock")
+  GEMFILE_NEXT_LOCK = Pathname("#{GEMFILE}.next.lock")
 
   autoload :GemfileNextAutoSync, 'bootboot/gemfile_next_auto_sync'
   autoload :Command,             'bootboot/command'
