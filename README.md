@@ -47,21 +47,21 @@ Installation
 plugin 'bootboot', '~> 0.1.1'
 ```
 2) Run `bundle install && bundle bootboot`
-3) You're done. Commit the Gemfile and the Gemfile_next.lock
+3) You're done. Commit the Gemfile and the Gemfile.next.lock
 
 Note: You should only run `bundle bootboot` once to install the plugin, otherwise your Gemfile will get updated each time you run it.
 
 Dual boot it!
 ------------
-If you want to boot using the dependencies from the `Gemfile_next.lock`, run any bundler command prefixed with the `DEPENDENCIES_NEXT=1` ENV variable. I.e. `DEPENDENCIES_NEXT=1 bundle exec irb`.
+If you want to boot using the dependencies from the `Gemfile.next.lock`, run any bundler command prefixed with the `DEPENDENCIES_NEXT=1` ENV variable. I.e. `DEPENDENCIES_NEXT=1 bundle exec irb`.
 
 **Note:** `bootboot` will use the gems and Ruby version specified per environment in your `Gemfile` to resolve dependencies and keep `Gemfile.lock` and `Gemfile_next.lock` in sync, but it does not do any magic to actually change the running Ruby version or install the gems in the environment you are not currently running, it simply tells Bundler which Ruby and gem versions to use in its resolution algorithm and keeps the lock files in sync. If you are a developer who is not involved in updating the dependency set, this should not affect you, simply use bundler normally. _However_, if you are involved in the dependency changes directly, you will often have to run `DEPENDENCIES_NEXT=1 bundle install` after making changes to the dependencies.
 
 ```sh
-# This will update Gemfile.lock and Gemfile_next.lock and install the gems
+# This will update Gemfile.lock and Gemfile.next.lock and install the gems
 # specified in Gemfile.lock:
 $ bundle update some_gem
-# This will actually install the gems specified in Gemfile_next.lock
+# This will actually install the gems specified in Gemfile.next.lock
 $ DEPENDENCIES_NEXT=1 bundle install
 ```
 
@@ -104,7 +104,7 @@ RUBY VERSION
    ruby 2.5.7p206
 ```
 
-and `Gemfile_next.lock` will have:
+and `Gemfile.next.lock` will have:
 
 ```
 RUBY VERSION
@@ -124,7 +124,7 @@ spec.version = "2.0"
 spec.required_ruby_version = '>= 2.6.5'
 ```
 
-Running `bundle update some_gem` will use Ruby 2.5.7 to resolve `some_gem` for `Gemfile.lock` and Ruby 2.6.5 to resolve `some_gem` for `Gemfile_next.lock` with the following results:
+Running `bundle update some_gem` will use Ruby 2.5.7 to resolve `some_gem` for `Gemfile.lock` and Ruby 2.6.5 to resolve `some_gem` for `Gemfile.next.lock` with the following results:
 
 Gemfile.lock:
 ```
@@ -132,13 +132,13 @@ specs:
   some_gem (1.0)
 ```
 
-Gemfile_next.lock:
+Gemfile.next.lock:
 ```
 specs:
   some_gem (2.0)
 ```
 
-**Note:** It is important to note that at this point, `some_gem 2.0` **will not** be installed on your system, it will simply be specified in `Gemfile_next.lock`, since installing it on the system would require changing the running Ruby version. This is sufficient to keep `Gemfile_next.lock` in sync, but is a potential source of confusion. To install gems under both versions of Ruby, see the next section.
+**Note:** It is important to note that at this point, `some_gem 2.0` **will not** be installed on your system, it will simply be specified in `Gemfile.next.lock`, since installing it on the system would require changing the running Ruby version. This is sufficient to keep `Gemfile.next.lock` in sync, but is a potential source of confusion. To install gems under both versions of Ruby, see the next section.
 
 Vendoring both sets of gems
 ---------------------------
@@ -153,7 +153,7 @@ DEPENDENCIES_NEXT=1 bundle pack
 
 When running Ruby scripts while dual booting two different Ruby versions, you have to remember to do two things simultaneously for every command:
 - Run the command with the correct version of Ruby
-- Add the DEPENDENCIES_NEXT environment variable to tell bundler to use `Gemfile_next.lock`
+- Add the DEPENDENCIES_NEXT environment variable to tell bundler to use `Gemfile.next.lock`
 
 So to run a spec in both versions, the workflow would look like this (assuming chruby for version management):
 
@@ -167,11 +167,11 @@ $ DEPENDENCIES_NEXT=1 bundle exec rspec spec/some_spec.rb
 Perhaps more importantly, to update or install a gem, the workflow would look like this:
 
 ```sh
-# This will update Gemfile.lock and Gemfile_next.lock and install the gems
+# This will update Gemfile.lock and Gemfile.next.lock and install the gems
 # specified in Gemfile.lock:
 $ chruby 2.5.7
 $ bundle update some_gem
-# This will actually install the gems specified in Gemfile_next.lock under the
+# This will actually install the gems specified in Gemfile.next.lock under the
 # correct Ruby installation:
 $ chruby 2.6.5
 $ DEPENDENCIES_NEXT=1 bundle install
@@ -179,19 +179,19 @@ $ DEPENDENCIES_NEXT=1 bundle install
 
 Configuration (Optional)
 ------------------------
-By default Bootboot will use the `DEPENDENCIES_NEXT` environment variable to update your Gemfile_next.lock. You can however configure it. For example, if you want the dualboot to happen when the `SHOPIFY_NEXT` env variable is present, you simply have to add this in your Gemfile:
+By default Bootboot will use the `DEPENDENCIES_NEXT` environment variable to update your Gemfile.next.lock. You can however configure it. For example, if you want the dualboot to happen when the `SHOPIFY_NEXT` env variable is present, you simply have to add this in your Gemfile:
 
 ```ruby
 # Gemfile
 Bundler.settings.set_local('bootboot_env_prefix', 'SHOPIFY')
 ```
 
-Keep the `Gemfile_next.lock` in sync
+Keep the `Gemfile.next.lock` in sync
 ------------
-When a developer bumps or adds a dependency, Bootboot will ensure that the `Gemfile_next.lock` snapshot gets updated.
+When a developer bumps or adds a dependency, Bootboot will ensure that the `Gemfile.next.lock` snapshot gets updated.
 
 **However, this feature is only available if you are on Bundler `>= 1.17`**
-Other versions will trigger a warning message telling them that Bootboot can't automatically keep the `Gemfile_next.lock` in sync.
+Other versions will trigger a warning message telling them that Bootboot can't automatically keep the `Gemfile.next.lock` in sync.
 
 If you use the deployment flag (`bundle --deployment`) this plugin won't work on Bundler `<= 2.0.1`. Consider using this workaround in your Gemfile for these versions of Bundler:
 

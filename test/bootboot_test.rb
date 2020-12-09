@@ -294,7 +294,7 @@ class BootbootTest < Minitest::Test
   private
 
   def gemfile_next(gemfile)
-    "#{gemfile.path}_next.lock"
+    "#{gemfile.path}.next.lock"
   end
 
   def write_gemfile(content = nil)

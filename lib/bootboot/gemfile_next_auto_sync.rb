@@ -61,7 +61,7 @@ module Bootboot
     end
 
     def which_env
-      if Bundler.default_lockfile.to_s =~ /_next\.lock/
+      if Bundler.default_lockfile.to_s =~ /\.next\.lock/
         Bootboot.env_previous
       else
         Bootboot.env_next
@@ -69,7 +69,7 @@ module Bootboot
     end
 
     def which_lock
-      if Bundler.default_lockfile.to_s =~ /_next\.lock/
+      if Bundler.default_lockfile.to_s =~ /\.next\.lock/
         GEMFILE_LOCK
       else
         GEMFILE_NEXT_LOCK
